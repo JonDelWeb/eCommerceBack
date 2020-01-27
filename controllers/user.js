@@ -43,7 +43,7 @@ exports.login = (req, res, next) => {
 
 exports.getUser = (req, res, next) => {
   User.findOne({ email: req.body.email })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.status(401).json({ error: 'User not found' });
       }
@@ -59,3 +59,30 @@ exports.getUser = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 
 };
+
+exports.getUserById = (req, res, next) => {
+  User.findById( { _id : req.body.id } )
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ error: 'User not found' });
+      }
+      res.status(200).json({
+        user,
+        token: jwt.sign(
+          { userId: user._id },
+          'RANDOM_TOKEN_SECRET',
+          { expiresIn: '24h' }
+        )
+      });
+    })
+    .catch(error => res.status(500).json({ error }));
+}
+
+exports.modifyUser = (req, res, next) => {
+  const userObject = { ...req.body };
+  User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+    .then(() => {
+      res.status(200).json({ message : 'User updated successfully '})
+    })
+    .catch(error => res.status(400).json({ error }));
+}

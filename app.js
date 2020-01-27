@@ -6,7 +6,7 @@ const userRoutes = require('./routes/user');
 const path = require('path');
 const app = express();
 
-mongoose.connect('mongodb+srv://jondel:<PASSWORD>@cluster0-bcxqx.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://jondel:227746733SL@cluster0-bcxqx.mongodb.net/test?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true

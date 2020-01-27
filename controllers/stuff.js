@@ -40,6 +40,13 @@ exports.modifyThing = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+exports.modifyRate = (req, res, next) => {
+  const thingObject = req.file;
+  Thing.updateOne({ _id: req.params.id }, { ...thingObject, rate: req.body.rate})
+    .then(() => res.status(200).json({ message: 'Vote modifié'}))
+    .catch(error => res.status(400).json({ error}))
+}
+
 exports.deleteThing = (req, res, next) => {
   Thing.findOne({ _id: req.params.id })
     .then(thing => {
